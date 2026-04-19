@@ -1,85 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Dashboard</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f4f6f9;
-}
-
-.container {
-  width: 500px;
-  margin: 50px auto;
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-h2 {
-  text-align: center;
-}
-
-textarea {
-  width: 100%;
-  height: 80px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  outline: none;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px;
-  width: 100%;
-  border: none;
-  border-radius: 8px;
-  background: #764ba2;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #5a3a85;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  background: #eee;
-  padding: 10px;
-  margin-top: 8px;
-  border-radius: 8px;
-}
-</style>
-
-</head>
-
 <body>
 
-<div class="container">
+<h2>My Notes</h2>
 
-<h2>📝 My Notes</h2>
-
-<textarea id="note" placeholder="Write your note..."></textarea>
+<textarea id="note"></textarea>
 <button onclick="saveNote()">Save</button>
 
 <ul id="list"></ul>
 
-</div>
-
 <script>
+const BASE = "https://notes-backend.onrender.com";
 const userId = localStorage.getItem("userId");
 
+// ✅ SAVE NOTE
 async function saveNote(){
-  await fetch("https://notes-backend.onrender.com",{
+  await fetch(BASE + "/save-note", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
@@ -92,8 +28,9 @@ async function saveNote(){
   loadNotes();
 }
 
+// ✅ LOAD NOTES
 async function loadNotes(){
-  const res = await fetch("https://notes-backend.onrender.com",{
+  const res = await fetch(BASE + "/get-notes", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({ userId })

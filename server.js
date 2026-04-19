@@ -1,44 +1,52 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const bcrypt = require("bcrypt");
 
 const app = express();
+
+// ✅ MIDDLEWARE
 app.use(express.json());
 app.use(cors({
-  origin: "https://biharnote.netlify.app"
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
 }));
 
-// 🔗 MongoDB connect (apna link yaha paste kar)
-mongoose.connect("mongodb+srv://KumarKK:Maguar%407209@cluster0.9g6bdma.mongodb.net/encryptDB")
+// ✅ ROOT CHECK
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+// ✅ MONGODB CONNECT (apna URL lagana)
+mongoose.connect("YOUR_MONGO_URL")
 .then(()=>console.log("MongoDB Connected"))
 .catch(err=>console.log(err));
 
-// 👤 User Schema
+// ✅ USER MODEL
 const User = mongoose.model("User", {
   username: String,
   password: String
 });
 
-// 📝 Note Schema
+// ✅ NOTE MODEL
 const Note = mongoose.model("Note", {
   userId: String,
   text: String
 });
 
-// 🔐 Signup
+// ✅ SIGNUP
 app.post("/signup", async (req,res)=>{
   const { username, password } = req.body;
 
-  const hash = await bcrypt.hash(password,10);
+  const hash = await bcrypt.hash(password, 10);
 
-  const user = new User({ username, password: hash });
-  await user.save();
+  await new User({ username, password: hash }).save();
 
-  res.json({ message:"Signup success" });
+  res.json({ message: "Signup success" });
 });
 
-// 🔑 Login
+// ✅ LOGIN
 app.post("/login", async (req,res)=>{
   const { username, password } = req.body;
 
@@ -55,7 +63,7 @@ app.post("/login", async (req,res)=>{
   }
 });
 
-// 📝 Save note
+// ✅ SAVE NOTE
 app.post("/save-note", async (req,res)=>{
   const { userId, text } = req.body;
 
@@ -64,7 +72,7 @@ app.post("/save-note", async (req,res)=>{
   res.json({ message:"Saved" });
 });
 
-// 📜 Get notes
+// ✅ GET NOTES
 app.post("/get-notes", async (req,res)=>{
   const { userId } = req.body;
 
@@ -73,8 +81,6 @@ app.post("/get-notes", async (req,res)=>{
   res.json(notes);
 });
 
+// ✅ PORT FIX (IMPORTANT)
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
-});
+app.listen(PORT, ()=>console.log("Server running on port " + PORT));

@@ -1,93 +1,25 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Auth Page</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #1d2671, #c33764);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 350px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  text-align: center;
-}
-
-h2 {
-  margin-bottom: 15px;
-}
-
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  transition: 0.3s;
-}
-
-input:focus {
-  border-color: #764ba2;
-  box-shadow: 0 0 5px rgba(118,75,162,0.5);
-}
-
-button {
-  width: 95%;
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #764ba2;
-  color: white;
-  font-size: 15px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  background: #5a3a85;
-}
-
-#msg {
-  margin-top: 10px;
-  color: green;
-}
-</style>
-
-</head>
-
 <body>
 
-<div class="container">
-
-<h2>📝 Create Account</h2>
+<h2>Signup</h2>
 <input id="suser" placeholder="Username">
 <input id="spass" type="password" placeholder="Password">
 <button onclick="signup()">Signup</button>
 
-<h2>🔑 Login</h2>
+<h2>Login</h2>
 <input id="luser" placeholder="Username">
 <input id="lpass" type="password" placeholder="Password">
 <button onclick="login()">Login</button>
 
 <p id="msg"></p>
 
-</div>
-
 <script>
+const BASE = "https://notes-backend.onrender.com";
+
+// ✅ SIGNUP
 async function signup(){
-  const res = await fetch("https://notes-backend.onrender.com/signup",{
+  const res = await fetch(BASE + "/signup", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
@@ -100,8 +32,9 @@ async function signup(){
   msg.innerText = data.message;
 }
 
+// ✅ LOGIN
 async function login(){
-  const res = await fetch("https://notes-backend.onrender.com",{
+  const res = await fetch(BASE + "/login", {
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
@@ -116,7 +49,7 @@ async function login(){
     localStorage.setItem("userId", data.userId);
     window.location = "dashboard.html";
   } else {
-    msg.innerText = "Invalid login";
+    msg.innerText = "Login Failed";
   }
 }
 </script>

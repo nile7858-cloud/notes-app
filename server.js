@@ -1,4 +1,23 @@
 const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+// 1. CORS (simple and reliable)
+app.use(cors());
+
+// 2. JSON parser
+app.use(express.json());
+
+// 3. IMPORTANT: preflight ko 200 return karo
+app.options("*", cors());
+
+// (optional check)
+app.get("/", (req, res) => {
+  res.send("Backend is running ");
+});
+
+const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcrypt");

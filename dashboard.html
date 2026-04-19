@@ -79,7 +79,7 @@ li {
 const userId = localStorage.getItem("userId");
 
 async function saveNote(){
-  await fetch("http://localhost:3000/save-note",{
+  await fetch("https://notes-backend.onrender.com",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
@@ -93,7 +93,7 @@ async function saveNote(){
 }
 
 async function loadNotes(){
-  const res = await fetch("http://localhost:3000/get-notes",{
+  const res = await fetch("https://notes-backend.onrender.com",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({ userId })

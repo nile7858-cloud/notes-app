@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://biharnote.netlify.app"
+}));
 
 // 🔗 MongoDB connect (apna link yaha paste kar)
 mongoose.connect("mongodb+srv://KumarKK:Maguar%407209@cluster0.9g6bdma.mongodb.net/encryptDB")

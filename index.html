@@ -19,14 +19,14 @@ const BASE = "https://notes-backend.onrender.com";
 
 // signup
 async function signup(){
-  const res = await fetch(BASE + "/signup", {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({
-      username:suser.value,
-      password:spass.value
-    })
-  });
+  const res = await fetch("https://notes-backend.onrender.com/signup", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    username: suser.value,
+    password: spass.value
+  })
+});
 
   const data = await res.json();
   msg.innerText = data.message;

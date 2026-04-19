@@ -17,11 +17,11 @@
 <script>
 const BASE = "https://notes-backend.onrender.com";
 
-// ✅ SIGNUP
+// signup
 async function signup(){
   const res = await fetch(BASE + "/signup", {
     method:"POST",
-    headers:{"Content-Type":"application/json"},
+    headers:{ "Content-Type":"application/json" },
     body:JSON.stringify({
       username:suser.value,
       password:spass.value
@@ -32,11 +32,11 @@ async function signup(){
   msg.innerText = data.message;
 }
 
-// ✅ LOGIN
+// login
 async function login(){
   const res = await fetch(BASE + "/login", {
     method:"POST",
-    headers:{"Content-Type":"application/json"},
+    headers:{ "Content-Type":"application/json" },
     body:JSON.stringify({
       username:luser.value,
       password:lpass.value

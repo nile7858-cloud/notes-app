@@ -13,11 +13,11 @@
 const BASE = "https://notes-backend.onrender.com";
 const userId = localStorage.getItem("userId");
 
-// ✅ SAVE NOTE
+// save note
 async function saveNote(){
   await fetch(BASE + "/save-note", {
     method:"POST",
-    headers:{"Content-Type":"application/json"},
+    headers:{ "Content-Type":"application/json" },
     body:JSON.stringify({
       userId,
       text: note.value
@@ -28,11 +28,11 @@ async function saveNote(){
   loadNotes();
 }
 
-// ✅ LOAD NOTES
+// load notes
 async function loadNotes(){
   const res = await fetch(BASE + "/get-notes", {
     method:"POST",
-    headers:{"Content-Type":"application/json"},
+    headers:{ "Content-Type":"application/json" },
     body:JSON.stringify({ userId })
   });
 

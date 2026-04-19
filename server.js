@@ -1,9 +1,11 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 
 const app = express();
 
-// ✅ VERY IMPORTANT (custom headers fix)
+/* ================= CORS FIX (FINAL) ================= */
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
@@ -11,55 +13,38 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ CORS middleware
 app.use(cors());
-
-// ✅ body parser
 app.use(express.json());
 
-// ✅ preflight handle (VERY IMPORTANT)
+// preflight (OPTIONS) handle
 app.options("*", (req, res) => {
   res.sendStatus(200);
 });
 
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const bcrypt = require("bcrypt");
-
-const app = express();
-
-// ✅ MIDDLEWARE
-app.use(express.json());
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type"]
-}));
-
-// ✅ ROOT CHECK
+/* ================= ROOT CHECK ================= */
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
 
-// ✅ MONGODB CONNECT (apna URL lagana)
+/* ================= MONGODB ================= */
 mongoose.connect("YOUR_MONGO_URL")
 .then(()=>console.log("MongoDB Connected"))
 .catch(err=>console.log(err));
 
-// ✅ USER MODEL
+/* ================= MODELS ================= */
 const User = mongoose.model("User", {
   username: String,
   password: String
 });
 
-// ✅ NOTE MODEL
 const Note = mongoose.model("Note", {
   userId: String,
   text: String
 });
 
-// ✅ SIGNUP
+/* ================= ROUTES ================= */
+
+// signup
 app.post("/signup", async (req,res)=>{
   const { username, password } = req.body;
 
@@ -67,10 +52,10 @@ app.post("/signup", async (req,res)=>{
 
   await new User({ username, password: hash }).save();
 
-  res.json({ message: "Signup success" });
+  res.json({ message:"Signup success" });
 });
 
-// ✅ LOGIN
+// login
 app.post("/login", async (req,res)=>{
   const { username, password } = req.body;
 
@@ -87,7 +72,7 @@ app.post("/login", async (req,res)=>{
   }
 });
 
-// ✅ SAVE NOTE
+// save note
 app.post("/save-note", async (req,res)=>{
   const { userId, text } = req.body;
 
@@ -96,7 +81,7 @@ app.post("/save-note", async (req,res)=>{
   res.json({ message:"Saved" });
 });
 
-// ✅ GET NOTES
+// get notes
 app.post("/get-notes", async (req,res)=>{
   const { userId } = req.body;
 
@@ -105,6 +90,6 @@ app.post("/get-notes", async (req,res)=>{
   res.json(notes);
 });
 
-// ✅ PORT FIX (IMPORTANT)
+/* ================= PORT ================= */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=>console.log("Server running on port " + PORT));
